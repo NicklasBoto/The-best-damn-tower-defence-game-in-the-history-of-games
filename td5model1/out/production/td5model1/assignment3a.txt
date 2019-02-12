@@ -1,0 +1,60 @@
+
+*** Assignment 3a Object Oriented Model for Tower Defence ***
+
+This is the start of the object oriented model for a tower defence game.
+See https://en.wikipedia.org/wiki/Tower_defense and
+https://www.youtube.com/watch?v=X7CtuWGME0w.
+
+Some simple graphics for testing is supplied, se TowerDefenceGUI.
+
+
+Workflow
+--------
+
+1.  Do inspect all code, read comments! Ask questions, clarify, ... before implementing!
+    Possibly sketch some very simple UML class diagram to have something to relate to.
+
+2.  Go to TowerDefenceGUI, STEP 1. The task is to get a Creep to follow a Path.
+    Work with classes Path and Creep and run Main or TowerDefenceGUI to inspect.
+    Possible to do non-visual testing, using class ModelTest (JUnit).
+    NOTE: Normally all attributes are set using a constructor. Possible more constructors
+    for convenience.
+
+3.  Comment out STEP 1 and uncomment STEP 2. Task is to introduce Waves of
+    Creeps moving over the screen by implementing the Wave class.
+    - The responsibility for the class it to handle a collection of (the same) Creeps
+    following the same Path...
+    - This includes: The movement of the Creeps, handling of dead or finished creeps, the spawning
+    of new creeps (up to max creeps).
+    - To spawn the Wave class should use the prototype pattern i.e. a "copyable" prototype object is
+    supplied (i.e. Creep must be "copyable").
+    - Class need to use the "current" time supplied by JavaFX (parameter: long now) to be able to spawn
+    at different rates.
+    - Class should be Iterable (to be able to use the short for loop)
+    - Must implement render method in TowerDefenceGUI.
+
+4.  Continue with STEP 3. The task is to connect the objects to one single object model using
+    class TowerDefence. TowerDefence class represents he overall game and will handle all other objects.
+    Class will in conjunction with other model objects run the overall functionality (delegate parts of the work).
+    Method update should do the logical work of the game i.e. move everything, check everything.
+    GUI will call method on this class (only).
+
+5.  NOW! Refactoring! Make a copy of what you done and continue to work with the copy (recommended
+    name td5model2). Grab a pencil and start to extend your UML class diagram.
+    - The task is to eliminate any kind of duplicate code in model by moving common code to abstract
+    base classes. The should be a hierarchy of abstract classes each representing a well define
+    concept. Crucial to get this right, else later confusion will arise!
+    - Note naming of abstract classes: Name starts with Abstract...
+    - The abstract base classes introduce new code but existing code probably have to be modified, replacing
+    with super types, more constructors, adding getter/setters, etc.
+    - When finished the program should work as before but the design should be greatly enhanced.
+
+6.  Start working with the Towers. The goal is to be able to add a tower that aims and fires at creeps,
+    see STEP 4. The logic to do this should be inside TowerDefence update method and the Tower class.
+    Note: Towers should benefit from the abstract classes.
+
+7.  When arriving here we should have a nice model ready to put into an MVC application i.e. the M part
+    is rather complete. Next we add the (C) control and (V)iew parts. Recap if you not understand what
+    this means. The VC parts are handled by JavaFX. View is constructed using FXML an XML language to
+    describe GUI's. So ... download td5mvc.zip and continue there ...
+
