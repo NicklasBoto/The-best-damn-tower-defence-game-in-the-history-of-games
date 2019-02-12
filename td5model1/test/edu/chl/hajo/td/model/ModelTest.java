@@ -21,7 +21,7 @@ public class ModelTest {
                 "17,6", "20,6");
         Path p = new Path(0, strPts, TILE_SIZE);
 
-        assertTrue(p.get(0) != null);
+        assertNotNull(p.get(0));
 
         // etc.
     }

@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.DelayQueue;
 
 import static edu.chl.hajo.td.model.TowerDefence.*;
 import static javafx.scene.paint.Color.BLACK;
@@ -39,14 +40,15 @@ public class TowerDefenceGUI extends Application {
 
 
     // TODO STEP 1
+    /*
     @Override
     public void init() {
         List<String> strPts = Arrays.asList(
                 "0,3", "3,3", "3,9", "8,9", "8,4", "12,4",
                 "12,12", "3,12", "3,17", "17,17",
                 "17,6", "20,6");
-        p = new Path(0, strPts, 10);
-        c = new Creep(p, 1.0);
+        p = new Path(0, strPts, 20);
+        c = new Creep(p, 30.0, 10, 10);
     }
 
     private void update(long now) {
@@ -58,7 +60,7 @@ public class TowerDefenceGUI extends Application {
         renderCreep(c);
         renderPath(p);
     }
-
+    */
     /*
     //  TODO STEP 2
     @Override
@@ -73,7 +75,7 @@ public class TowerDefenceGUI extends Application {
     }
 
     private void update(long now) {
-        w.move();
+        w.equalsmove();
         w.spawn(now);
     }
 
@@ -81,10 +83,8 @@ public class TowerDefenceGUI extends Application {
         clearScreen();
         renderWave(w);
         renderPath(p);
-    }
-    */
+    }*/
 
-    /*
     // TODO STEP 3
 
     @Override
@@ -118,7 +118,6 @@ public class TowerDefenceGUI extends Application {
         render(td);
         renderPath(p);
     }
-    */
 
     /*
      // TODO STEP 4
@@ -163,11 +162,15 @@ public class TowerDefenceGUI extends Application {
 
     private void render(TowerDefence td) {
         clearScreen();
-        // TODO
+        for (Wave wave : td.getWaves()) {
+            renderWave(wave);
+        }
     }
 
     private void renderWave(Wave wave) {
-        // TODO
+        for (Creep creep : wave.getCreeps()){
+            renderCreep(creep);
+        }
     }
 
     private void renderPath(Path path) {
@@ -175,7 +178,7 @@ public class TowerDefenceGUI extends Application {
         for (Point2D p : path.getPoints()) {
             double xTopLeft = p.getX() - 2;
             double yTopLeft = p.getY() - 2;
-            gc.fillOval(xTopLeft, yTopLeft, 6, 6);
+            gc.fillOval(xTopLeft, yTopLeft, 12, 12);
         }
         gc.setFill(BLACK);
     }
@@ -184,7 +187,7 @@ public class TowerDefenceGUI extends Application {
     private void renderCreep(Creep c) {
         gc.setFill(RED);
         fillRect(c.getPos(), c.getWidth(), c.getHeight());
-        strokeLine(c.getPos(), c.getPos().add(c.getDir().scale(15)));
+        strokeLine(c.getPos(), c.getPos().add(c.getDir().scale(12)));
 
     }
 

@@ -31,13 +31,23 @@ public class TowerDefence {
     private int damage;
 
     @Getter
-    private final TDMap map = null;
+    private final TDMap map;
+
+    @Getter
+    private List<Wave> waves;
+
+    public TowerDefence (TDMap map, List<Wave> waves) {
+        this.map = map;
+        this.waves = waves;
+    }
 
     // Update the model
     public void update(long now) {
-            // TODO
+        for (Wave wave : waves) {
+            wave.equalsmove();
+            wave.spawn(now);
+        }
     }
-
 
     // TODO
 

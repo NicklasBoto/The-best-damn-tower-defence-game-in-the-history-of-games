@@ -28,8 +28,8 @@ public class Path {
         for (String s : lS) {
             String[] parts = s.split(",");
 
-            int x = Integer.parseInt(parts[0]);
-            int y = Integer.parseInt(parts[1]);
+            int x = Integer.parseInt(parts[0])*TILE_SIZE+(100/TILE_SIZE);
+            int y = Integer.parseInt(parts[1])*TILE_SIZE+(100/TILE_SIZE);
             Point2D point = new Point2D(x, y);
 
             pointList.add(point);
