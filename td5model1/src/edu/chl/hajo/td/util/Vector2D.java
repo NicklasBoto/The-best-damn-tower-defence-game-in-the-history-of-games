@@ -19,11 +19,13 @@ public class Vector2D {
     private final double x;
     @Getter
     private final double y;
+    @Getter
+    private final double len;
 
     // NOTE: Private only for internal use
     private Vector2D(double x, double y, boolean normalize) {
         if (normalize) {
-            double len = length(x, y);
+            len = length(x, y);
             if (len > 0) {
                 this.x = x / len;
                 this.y = y / len;
@@ -32,6 +34,7 @@ public class Vector2D {
                 this.y = 0;
             }
         } else {
+            len = length(x, y);
             this.x = x;
             this.y = y;
         }
@@ -43,6 +46,10 @@ public class Vector2D {
 
     public Vector2D(Point2D p1, Point2D p2) {
         this(p2.getX() - p1.getX(), p2.getY() - p1.getY(), true);
+    }
+
+    public Vector2D(Point2D p1, Point2D p2, boolean b){
+        this(p2.getX() - p1.getX(), p2.getY() - p1.getY(), b);
     }
 
     // Result NOT normalized

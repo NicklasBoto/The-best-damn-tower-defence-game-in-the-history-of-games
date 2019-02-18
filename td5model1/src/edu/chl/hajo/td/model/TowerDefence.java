@@ -1,5 +1,6 @@
 package edu.chl.hajo.td.model;
 
+import edu.chl.hajo.td.model.towers.AbstractTower;
 import edu.chl.hajo.td.util.Point2D;
 import lombok.Getter;
 
@@ -34,11 +35,19 @@ public class TowerDefence {
     private final TDMap map;
 
     @Getter
+    private final Path path;
+
+    @Getter
     private List<Wave> waves;
 
-    public TowerDefence (TDMap map, List<Wave> waves) {
+    @Getter
+    private List<AbstractTower> towers;
+
+    public TowerDefence (TDMap map, List<Wave> waves, Path path) {
         this.map = map;
         this.waves = waves;
+        this.path = path;
+        this.towers = new ArrayList<AbstractTower>();
     }
 
     // Update the model
@@ -47,9 +56,14 @@ public class TowerDefence {
             wave.equalsmove();
             wave.spawn(now);
         }
+        for (AbstractTower t : towers){
+            t.update(waves);
+        }
     }
 
-    // TODO
+    public void addTower(AbstractTower t) {
+        towers.add(t);
+    }
 
 
     // ------------ Conversions for GUI ------------------

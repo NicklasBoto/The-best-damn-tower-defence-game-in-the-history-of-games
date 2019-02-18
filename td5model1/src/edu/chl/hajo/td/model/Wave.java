@@ -1,11 +1,9 @@
 package edu.chl.hajo.td.model;
 
-import edu.chl.hajo.td.model.creeps.Creep;
+import edu.chl.hajo.td.model.creeps.AbstractCreep;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /*
  *    A Wave of creeps
@@ -20,22 +18,22 @@ public class Wave {
     private final long spawnDelay;
 
     private long timer;
-    private boolean readyToSpawn = true; 
+    private boolean readyToSpawn = true;
     private boolean startDelayed = false;
     private boolean gottenStartTime = false;
     private int spawnedCreepers;
 
-    private final Creep prototype;
+    private final AbstractCreep prototype;
 
     @Getter
-    private ArrayList<Creep> creeps;
+    private ArrayList<AbstractCreep> creeps;
 
-    public Wave(int size, long spawnDelay, long startDelay, Creep prototype) {
+    public Wave(int size, long spawnDelay, long startDelay, AbstractCreep prototype) {
         this.size = size;
         this.startDelay = startDelay;
         this.spawnDelay = spawnDelay;
         this.prototype = prototype;
-        this.creeps = new ArrayList<Creep>();
+        this.creeps = new ArrayList<AbstractCreep>();
         this.spawnedCreepers = 0;
     }
 
@@ -47,7 +45,7 @@ public class Wave {
         if (now - timer > startDelay) {
             startDelayed = true;
         }
-        
+
         if (startDelayed && spawnedCreepers < size) {
             if(readyToSpawn) {
                 creeps.add(clonePrototype());
@@ -61,14 +59,14 @@ public class Wave {
             }
         }
     }
-    
-    public Creep clonePrototype () {
-        return new Creep(prototype.getPath());
+
+    public AbstractCreep clonePrototype () {
+        return prototype.copy();
     }
 
     public void equalsmove(){
         for (int i = creeps.size()-1; i >= 0; i--){
-            if (creeps.get(i).getFinished() || creeps.get(i).getDead()){
+            if (creeps.get(i).isFinished() || creeps.get(i).isDead()){
                 creeps.remove(creeps.get(i));
             } else {
                 creeps.get(i).move();

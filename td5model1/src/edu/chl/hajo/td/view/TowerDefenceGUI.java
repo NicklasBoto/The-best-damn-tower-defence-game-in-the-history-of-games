@@ -2,8 +2,12 @@ package edu.chl.hajo.td.view;
 
 import edu.chl.hajo.td.model.*;
 
-import edu.chl.hajo.td.model.creeps.Creep;
+import edu.chl.hajo.td.model.creeps.AbstractCreep;
+import edu.chl.hajo.td.model.creeps.BasicCreep;
 import edu.chl.hajo.td.util.Point2D;
+
+import edu.chl.hajo.td.model.towers.AbstractTower;
+import edu.chl.hajo.td.model.towers.BasicTower;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -16,13 +20,12 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.DelayQueue;
 
 import static edu.chl.hajo.td.model.TowerDefence.*;
 import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.DARKORANGE;
 import static javafx.scene.paint.Color.RED;
-
+import static javafx.scene.paint.Color.BLUE;
 
 /*
        Simplified GUI for testing and exploring
@@ -31,61 +34,8 @@ import static javafx.scene.paint.Color.RED;
  */
 public class TowerDefenceGUI extends Application {
 
-
     // Objects we're working with right now, used below in step 1-4
     private TowerDefence td;
-    private Creep c;
-    private Wave w;
-    private Path p;
-
-
-    // TODO STEP 1
-    /*
-    @Override
-    public void init() {
-        List<String> strPts = Arrays.asList(
-                "0,3", "3,3", "3,9", "8,9", "8,4", "12,4",
-                "12,12", "3,12", "3,17", "17,17",
-                "17,6", "20,6");
-        p = new Path(0, strPts, 20);
-        c = new Creep(p, 30.0, 10, 10);
-    }
-
-    private void update(long now) {
-        c.move();
-    }
-
-    private void render() {
-        clearScreen();
-        renderCreep(c);
-        renderPath(p);
-    }
-    */
-    /*
-    //  TODO STEP 2
-    @Override
-    public void init() {
-        List<String> strPts = Arrays.asList(
-                "0,3", "3,3", "3,9", "8,9", "8,4", "12,4",
-                "12,12", "3,12", "3,17", "17,17",
-                "17,6", "20,6");
-        p = new Path(0, strPts, TILE_SIZE);
-        c = new Creep(p);
-        w = new Wave(5, TENTH_SEC, ONE_SEC, c);
-    }
-
-    private void update(long now) {
-        w.equalsmove();
-        w.spawn(now);
-    }
-
-    private void render() {
-        clearScreen();
-        renderWave(w);
-        renderPath(p);
-    }*/
-
-    // TODO STEP 3
 
     @Override
     public void init() {
@@ -97,15 +47,15 @@ public class TowerDefenceGUI extends Application {
             }
         }
         TDMap map = new TDMap(logicalTile, TILE_SIZE);
-        List<String> strPts = Arrays.asList(
-                "0,3", "3,3", "3,9", "8,9", "8,4", "12,4",
-                "12,12", "3,12", "3,17", "17,17",
-                "17,6", "20,6");
-        p = new Path(0, strPts, TILE_SIZE);
-        c = new Creep(p);
+
+        List<String> strPts = Arrays.asList("0,3", "3,3", "3,9", "8,9", "8,4", "12,4", "12,12", "3,12", "3,17", "17,17", "17,6", "20,6");
+        Path p = new Path(0, strPts, TILE_SIZE);
+        AbstractCreep c = new BasicCreep(p);
         Wave wave = new Wave(5, TENTH_SEC, ONE_SEC, c);
         List<Wave> waves = Arrays.asList(wave);
-        td = new TowerDefence(map, waves);
+        td = new TowerDefence(map, waves, p);
+
+        td.addTower(new BasicTower(new Point2D(4 * TILE_SIZE + TILE_SIZE / 2, 6 * TILE_SIZE + TILE_SIZE / 2)));
 
     }
 
@@ -116,83 +66,62 @@ public class TowerDefenceGUI extends Application {
     private void render() {
         clearScreen();
         render(td);
-        renderPath(p);
     }
 
-    /*
-     // TODO STEP 4
-    @Override
-    public void init() {
-        TDTile[][] logicalTile = new TDTile[20][20];
-        // NOTE: y is row, x is col.
-        for (int y = 0; y < logicalTile.length; y++) {
-            for (int x = 0; x < logicalTile.length; x++) {
-                logicalTile[y][x] = new TDTile();
-            }
-        }
-        TDMap map = new TDMap(logicalTile, TILE_SIZE);
-        List<String> strPts = Arrays.asList(
-                "0,3", "3,3", "3,9", "8,9", "8,4", "12,4",
-                "12,12", "3,12", "3,17", "17,17",
-                "17,6", "20,6");
-        p = new Path(0, strPts, TILE_SIZE);
-        c = new Creep(p);
-        Wave wave = new Wave(5, 100_000_000,
-                1_000_000_000, c);
 
-        List<Wave> waves = Arrays.asList(wave);
 
-        td = new TowerDefence(map, waves);
-
-        // Add tower at center for some tile
-        td.addTower(new Tower(
-                new Point2D(4 * TILE_SIZE + TILE_SIZE / 2, 6 * TILE_SIZE + TILE_SIZE / 2)));
-    }
-
-    private void update(long now) {
-        td.update(now);
-    }
-
-    private void render() {
-        clearScreen();
-        render(td);
-    }
-    */
     // ------------------ Render -----------------------------
 
     private void render(TowerDefence td) {
         clearScreen();
+        renderGrid(td.getMap().getTiles());
+        renderPath(td.getPath());
         for (Wave wave : td.getWaves()) {
             renderWave(wave);
+        }
+        for (AbstractTower tower : td.getTowers()){
+            renderTower(tower);
         }
     }
 
     private void renderWave(Wave wave) {
-        for (Creep creep : wave.getCreeps()){
+        for (AbstractCreep creep : wave.getCreeps()) {
             renderCreep(creep);
         }
     }
 
     private void renderPath(Path path) {
+        int dotSize = 10; //So the line can be on the center of the dots
+
+        gc.setFill(BLACK);
+        for (int i = 0; i < path.getPoints().size() - 1; i++) {
+            strokeLine(path.get(i), path.get(i+1));
+        }
+
         gc.setFill(DARKORANGE);
         for (Point2D p : path.getPoints()) {
-            double xTopLeft = p.getX() - 2;
-            double yTopLeft = p.getY() - 2;
-            gc.fillOval(xTopLeft, yTopLeft, 12, 12);
+            double xTopLeft = p.getX() - dotSize/2.0;
+            double yTopLeft = p.getY() - dotSize/2.0;
+            gc.fillOval(xTopLeft, yTopLeft, dotSize, dotSize);
         }
-        gc.setFill(BLACK);
+
+
     }
 
-
-    private void renderCreep(Creep c) {
-        gc.setFill(RED);
+    private void renderCreep(AbstractCreep c) {
+        gc.setFill(c.getColor());
         fillRect(c.getPos(), c.getWidth(), c.getHeight());
         strokeLine(c.getPos(), c.getPos().add(c.getDir().scale(12)));
 
     }
 
-    // ------------------ JavFX GUI Nothing to do below  -----------------------------
+    private void renderTower(AbstractTower t){
+        gc.setFill(BLUE);
+        fillOval(t.getPos(), t.getWidth(), t.getHeight());
+        strokeLine(t.getPos(), t.getPos().add(t.getDir().scale(12)));
+    }
 
+    // ------------------ JavFX GUI Nothing to do below
 
     private GraphicsContext gc;
 
@@ -213,7 +142,6 @@ public class TowerDefenceGUI extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -224,46 +152,13 @@ public class TowerDefenceGUI extends Application {
         timer.start();
     }
 
-    /*
-    private void render(TowerDefence td) {
-        clearScreen();
-        renderGrid(td.getMap().getTiles());
-        td.getWaves().forEach(this::renderWave);
-    }
-
-
-    private void renderPath(Path path) {
-        gc.setFill(DARKORANGE);
-        for (Point2D p : path.getPoints()) {
-            double xTopLeft = p.getX() - 2;
-            double yTopLeft = p.getY() - 2;
-            gc.fillOval(xTopLeft, yTopLeft, 6, 6);
-        }
-        gc.setFill(BLACK);
-    }
-
-    private void renderWave(Wave wave) {
-        for (Creep c : wave.getCreeps()) {
-            renderCreep(c);
-        }
-    }
-
-    private void renderCreep(Creep c) {
-        gc.setFill(RED);
-        fillRect(c.getPos(), c.getWidth(), c.getHeight());
-        strokeLine(c.getPos(), c.getPos().add(c.getDir().scale(15)));
-
-    }
-*/
     private void renderGrid(TDTile[][] tiles) {
         gc.setLineWidth(1.0);
         for (int i = 0; i < tiles.length; i++) {
-            gc.strokeLine(TILE_SIZE * i + 0.5, 0,
-                    TILE_SIZE * i + 0.5, GAME_HEIGHT);
+            gc.strokeLine(TILE_SIZE * i + 0.5, 0, TILE_SIZE * i + 0.5, GAME_HEIGHT);
         }
         for (int i = 0; i < tiles.length; i++) {
-            gc.strokeLine(0, TILE_SIZE * i + 0.5,
-                    GAME_WIDTH, TILE_SIZE * i + 0.5);
+            gc.strokeLine(0, TILE_SIZE * i + 0.5, GAME_WIDTH, TILE_SIZE * i + 0.5);
         }
     }
 

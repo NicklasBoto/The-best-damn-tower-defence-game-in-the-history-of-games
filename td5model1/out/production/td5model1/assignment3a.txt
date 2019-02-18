@@ -39,12 +39,12 @@ Workflow
     Method update should do the logical work of the game i.e. move everything, check everything.
     GUI will call method on this class (only).
 
-5.  NOW! Refactoring! Make a copy of what you done and continue to work with the copy (recommended
+5.  NOW!to Refactoring! Make a copy of what you done and continue to work with the copy (recommended
     name td5model2). Grab a pencil and start to extend your UML class diagram.
-    - The task is to eliminate any kind of duplicate code in model by moving common code to abstract
+    - The task is  eliminate any kind of duplicate code in model by moving common code to abstract
     base classes. The should be a hierarchy of abstract classes each representing a well define
     concept. Crucial to get this right, else later confusion will arise!
-    - Note naming of abstract classes: Name starts with Abstract...
+    - Note naming of abstract classes:  startsName with Abstract...
     - The abstract base classes introduce new code but existing code probably have to be modified, replacing
     with super types, more constructors, adding getter/setters, etc.
     - When finished the program should work as before but the design should be greatly enhanced.
