@@ -86,12 +86,6 @@ public class TowerDefenceGUI extends Application {
         }
     }
 
-    private void renderWave(Wave wave) {
-        for (AbstractCreep creep : wave.getCreeps()) {
-            renderCreep(creep);
-        }
-    }
-
     private void renderPath(Path path) {
         int dotSize = 10; //So the line can be on the center of the dots
 
@@ -110,6 +104,12 @@ public class TowerDefenceGUI extends Application {
 
     }
 
+    private void renderWave(Wave wave) {
+        for (AbstractCreep creep : wave.getCreeps()) {
+            renderCreep(creep);
+        }
+    }
+
     private void renderCreep(AbstractCreep c) {
         gc.setFill(c.getColor());
         fillRect(c.getPos(), c.getWidth(), c.getHeight());
@@ -122,6 +122,10 @@ public class TowerDefenceGUI extends Application {
         fillOval(t.getPos(), t.getWidth(), t.getHeight());
         strokeLine(t.getPos(), t.getPos().add(t.getDir()));
         strokeOval(t.getPos(), t.getRange(), t.getRange());
+
+        for (AbstractBullet bullet : t.getBullets()) {
+            fillOval(bullet.getPos(), bullet.getWidth(), bullet.getHeight());
+        }
     }
 
     // ------------------ JavFX GUI Nothing to do below

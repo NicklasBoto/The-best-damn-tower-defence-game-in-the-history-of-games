@@ -12,7 +12,7 @@ public class BasicTower extends AbstractTower {
         this.pos = pos;
         this.width = 40;
         this.height = 40;
-        this.range = 400;
+        this.range = 10;
         this.coolDown = TENTH_SEC;
         this.firePower = 15;
         this.bulletPrototype = new BasicBullet(new Point2D(0,0), new Vector2D(0,0));

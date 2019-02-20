@@ -48,7 +48,7 @@ public class Vector2D {
         this(p2.getX() - p1.getX(), p2.getY() - p1.getY(), true);
     }
 
-    public Vector2D(Point2D p1, Point2D p2, boolean b){
+    public Vector2D(Point2D p1, Point2D p2, boolean b) {
         this(p2.getX() - p1.getX(), p2.getY() - p1.getY(), b);
     }
 

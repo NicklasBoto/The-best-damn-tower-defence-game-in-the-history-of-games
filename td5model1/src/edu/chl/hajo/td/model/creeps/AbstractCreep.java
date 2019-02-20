@@ -1,6 +1,7 @@
 package edu.chl.hajo.td.model.creeps;
 
 import edu.chl.hajo.td.model.Path;
+import edu.chl.hajo.td.model.renderable.Renderable;
 import edu.chl.hajo.td.util.Point2D;
 import edu.chl.hajo.td.util.Vector2D;
 import javafx.scene.paint.Color;
@@ -15,20 +16,7 @@ import static edu.chl.hajo.td.model.TowerDefence.TILE_SIZE;
  *     - Will damage you if arriving at path end
  *     - May be killed by some tower placed by you
  */
-public abstract class AbstractCreep {
-
-    @Setter
-    @Getter
-    protected Point2D pos;    // Center position
-
-    @Getter
-    protected double width; // Upper right corner: x - width / 2
-    @Getter
-    protected double height;
-
-    @Getter
-    @Setter
-    protected Vector2D dir;  // Normalized direction for moving
+public abstract class AbstractCreep extends Renderable {
 
     @Setter
     @Getter
@@ -45,9 +33,6 @@ public abstract class AbstractCreep {
 
     @Getter
     protected boolean dead;
-
-    @Getter
-    protected Color color;
 
     @Getter
     @Setter
