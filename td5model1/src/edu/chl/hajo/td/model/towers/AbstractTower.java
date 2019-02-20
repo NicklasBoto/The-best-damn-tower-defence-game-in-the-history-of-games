@@ -1,11 +1,12 @@
 package edu.chl.hajo.td.model.towers;
 
-import edu.chl.hajo.td.model.Renderable.Renderable;
+import edu.chl.hajo.td.model.renderable.Renderable;
 import edu.chl.hajo.td.model.Wave;
 import edu.chl.hajo.td.model.creeps.AbstractCreep;
 import edu.chl.hajo.td.model.towers.bullets.AbstractBullet;
 import edu.chl.hajo.td.util.Point2D;
 import edu.chl.hajo.td.util.Vector2D;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,11 +25,11 @@ public abstract class AbstractTower extends Renderable {
     @Getter
     protected int firePower;
 
+    @Getter
+    protected ArrayList<AbstractBullet> bullets;
 
-    protected static Vector2D INIT_DIR = new Vector2D(-1, 0);
-
+    protected Vector2D INIT_DIR;
     protected AbstractBullet bulletPrototype;
-    private List<AbstractBullet> bullets;
 
     public void update(List<Wave> ws){
         updateBullets();
@@ -56,6 +57,6 @@ public abstract class AbstractTower extends Renderable {
     }
 
     public void shoot() {
-        bullets.add( bulletPrototype.copy(this.getPos(), this.getDir()) );
+        bullets.add(bulletPrototype.copy(this.getPos(), this.getDir()));
     }
 }

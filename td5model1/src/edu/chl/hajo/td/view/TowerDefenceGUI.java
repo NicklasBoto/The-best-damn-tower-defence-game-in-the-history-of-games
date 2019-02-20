@@ -9,6 +9,8 @@ import edu.chl.hajo.td.util.Point2D;
 import edu.chl.hajo.td.model.towers.AbstractTower;
 import edu.chl.hajo.td.model.towers.BasicTower;
 
+import edu.chl.hajo.td.model.towers.bullets.AbstractBullet;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 

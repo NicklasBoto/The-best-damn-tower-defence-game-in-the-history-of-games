@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 public class BasicCreep extends AbstractCreep {
     public BasicCreep(Path path) {
         this.path = path;
-        this.speed = 1000000;
+        this.speed = 100;
         this.width = 10;
         this.height = 10;
         this.color = Color.RED;

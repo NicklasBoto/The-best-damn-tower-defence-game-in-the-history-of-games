@@ -22,8 +22,8 @@ public class Vector2D {
     @Getter
     private final double len;
 
-    // NOTE: Private only for internal use
-    private Vector2D(double x, double y, boolean normalize) {
+    // NOTE: Private only for internal use, nope
+    public Vector2D(double x, double y, boolean normalize) {
         if (normalize) {
             len = length(x, y);
             if (len > 0) {
