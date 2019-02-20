@@ -52,10 +52,12 @@ public class TowerDefenceGUI extends Application {
         Path p = new Path(0, strPts, TILE_SIZE);
         AbstractCreep c = new BasicCreep(p);
         Wave wave = new Wave(5, TENTH_SEC, ONE_SEC, c);
-        List<Wave> waves = Arrays.asList(wave);
+        Wave wave2 = new Wave(5, TENTH_SEC, ONE_SEC*2, c);
+        List<Wave> waves = Arrays.asList(wave, wave2);
         td = new TowerDefence(map, waves, p);
 
         td.addTower(new BasicTower(new Point2D(4 * TILE_SIZE + TILE_SIZE / 2, 6 * TILE_SIZE + TILE_SIZE / 2)));
+        td.addTower(new BasicTower(new Point2D(16 * TILE_SIZE + TILE_SIZE / 2 - 2, 16 * TILE_SIZE + TILE_SIZE / 2 - 2)));
 
     }
 
@@ -118,7 +120,8 @@ public class TowerDefenceGUI extends Application {
     private void renderTower(AbstractTower t){
         gc.setFill(BLUE);
         fillOval(t.getPos(), t.getWidth(), t.getHeight());
-        strokeLine(t.getPos(), t.getPos().add(t.getDir().scale(12)));
+        strokeLine(t.getPos(), t.getPos().add(t.getDir()));
+        strokeOval(t.getPos(), t.getRange(), t.getRange());
     }
 
     // ------------------ JavFX GUI Nothing to do below
@@ -172,6 +175,12 @@ public class TowerDefenceGUI extends Application {
         double xTopLeft = pos.getX() - width / 2;
         double yTopLeft = pos.getY() - height / 2;
         gc.fillOval(xTopLeft, yTopLeft, width, height);
+    }
+
+    private void strokeOval(Point2D pos, double width, double height) {
+        double xTopLeft = pos.getX() - width / 2;
+        double yTopLeft = pos.getY() - height / 2;
+        gc.strokeOval(xTopLeft, yTopLeft, width, height);
     }
 
     private void strokeLine(Point2D start, Point2D end) {
