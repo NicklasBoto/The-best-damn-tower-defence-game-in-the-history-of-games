@@ -124,6 +124,7 @@ public class TowerDefenceGUI extends Application {
         fillOval(t.getPos(), t.getWidth(), t.getHeight());
         strokeLine(t.getPos(), t.getPos().add(t.getDir()));
         strokeOval(t.getPos(), t.getRange(), t.getRange());
+        fillRect(t.getPos(), 10, 10);
 
         for (AbstractBullet bullet : t.getBullets()) {
             fillOval(bullet.getPos(), bullet.getWidth(), bullet.getHeight());
@@ -184,9 +185,9 @@ public class TowerDefenceGUI extends Application {
     }
 
     private void strokeOval(Point2D pos, double width, double height) {
-        double xTopLeft = pos.getX() - width / 2;
-        double yTopLeft = pos.getY() - height / 2;
-        gc.strokeOval(xTopLeft, yTopLeft, width, height);
+        double xTopLeft = pos.getX() - width;
+        double yTopLeft = pos.getY() - height;
+        gc.strokeOval(xTopLeft, yTopLeft, width*2, height*2);
     }
 
     private void strokeLine(Point2D start, Point2D end) {

@@ -9,7 +9,7 @@ public class BasicBullet extends AbstractBullet {
     public BasicBullet (Point2D pos, Vector2D dir) {
         this.width = 10;
         this.height = 10;
-        this.speed = 20;
+        this.speed = 5;
         this.color = Color.RED;
         this.pos = pos;
         this.dir = dir;
