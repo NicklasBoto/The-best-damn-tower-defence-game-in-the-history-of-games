@@ -118,9 +118,11 @@ public abstract class AbstractTower extends Renderable {
                             bPos.getY() < c.getPos().getY() + c.getHeight() &&
                             bPos.getY() + b.getWidth() > c.getPos().getY()) {
                         c.setHp(c.getHp()-firePower);
+                        bullets.remove(i);
                     }
                 }
             }
+
         }
     }
 
