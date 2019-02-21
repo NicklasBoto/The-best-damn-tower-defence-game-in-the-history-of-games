@@ -8,7 +8,7 @@ import edu.chl.hajo.td.util.Point2D;
 
 import edu.chl.hajo.td.model.towers.AbstractTower;
 import edu.chl.hajo.td.model.towers.BasicTower;
-
+import edu.chl.hajo.td.model.towers.HarasserTower;
 import edu.chl.hajo.td.model.towers.bullets.AbstractBullet;
 
 import javafx.animation.AnimationTimer;
@@ -50,7 +50,7 @@ public class TowerDefenceGUI extends Application {
         }
         TDMap map = new TDMap(logicalTile, TILE_SIZE);
 
-        List<String> strPts = Arrays.asList("0,3", "3,3", "3,9", "8,9", "8,4", "12,4", "12,12", "3,12", "3,17", "17,17", "17,6", "20,6");
+        List<String> strPts = Arrays.asList("0,3", "3,3", "3,9", "8,9", "8,4", "12,4", "12,12", "3,12", "3,17", "17,17", "17,2", "20,2");
         Path p = new Path(0, strPts, TILE_SIZE);
         AbstractCreep c = new BasicCreep(p);
         Wave wave = new Wave(5, TENTH_SEC, ONE_SEC, c);
@@ -59,7 +59,8 @@ public class TowerDefenceGUI extends Application {
         td = new TowerDefence(map, waves, p);
 
         td.addTower(new BasicTower(new Point2D(4 * TILE_SIZE + TILE_SIZE / 2, 6 * TILE_SIZE + TILE_SIZE / 2)));
-        td.addTower(new BasicTower(new Point2D(16 * TILE_SIZE + TILE_SIZE / 2 - 2, 16 * TILE_SIZE + TILE_SIZE / 2 - 2)));
+        td.addTower(new BasicTower(new Point2D(15 * TILE_SIZE + TILE_SIZE / 2, 15 * TILE_SIZE + TILE_SIZE / 2)));
+        td.addTower(new HarasserTower(new Point2D(3 * TILE_SIZE + TILE_SIZE / 2, 14 * TILE_SIZE + TILE_SIZE / 2)));
 
     }
 
@@ -120,7 +121,7 @@ public class TowerDefenceGUI extends Application {
     }
 
     private void renderTower(AbstractTower t){
-        gc.setFill(BLUE);
+        gc.setFill(t.getColor());
         fillOval(t.getPos(), t.getWidth(), t.getHeight());
         strokeLine(t.getPos(), t.getPos().add(t.getDir()));
         strokeOval(t.getPos(), t.getRange(), t.getRange());

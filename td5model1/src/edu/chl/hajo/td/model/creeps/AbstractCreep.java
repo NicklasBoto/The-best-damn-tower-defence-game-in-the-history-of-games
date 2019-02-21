@@ -50,7 +50,7 @@ public abstract class AbstractCreep extends Renderable {
     public void move(){
         Point2D nextPoint = path.getPoints().get(currentPoint + 1);
         Vector2D vector = new Vector2D(pos, nextPoint);
-        vector.scale(speed);
+        vector = vector.scale(speed);
         this.dir = vector;
         this.pos = this.pos.add(vector);
 
