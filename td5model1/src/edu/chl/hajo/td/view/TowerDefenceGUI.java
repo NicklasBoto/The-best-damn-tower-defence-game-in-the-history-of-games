@@ -53,8 +53,8 @@ public class TowerDefenceGUI extends Application {
         List<String> strPts = Arrays.asList("0,3", "3,3", "3,9", "8,9", "8,4", "12,4", "12,12", "3,12", "3,17", "17,17", "17,2", "20,2");
         Path p = new Path(0, strPts, TILE_SIZE);
         AbstractCreep c = new BasicCreep(p);
-        Wave wave = new Wave(5, TENTH_SEC, ONE_SEC, c);
-        Wave wave2 = new Wave(5, TENTH_SEC, ONE_SEC*2, c);
+        Wave wave = new Wave(5, TENTH_SEC*3, ONE_SEC, c);
+        Wave wave2 = new Wave(5, TENTH_SEC*3, ONE_SEC*4, c);
         List<Wave> waves = Arrays.asList(wave, wave2);
         td = new TowerDefence(map, waves, p);
 

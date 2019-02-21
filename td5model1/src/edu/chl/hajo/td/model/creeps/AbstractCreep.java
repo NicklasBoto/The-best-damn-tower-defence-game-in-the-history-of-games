@@ -8,6 +8,8 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.*;
+
 import static edu.chl.hajo.td.model.TowerDefence.TILE_SIZE;
 
 /*
@@ -25,6 +27,7 @@ public abstract class AbstractCreep extends Renderable {
     @Getter
     protected Path path;
 
+    @Setter
     @Getter
     protected int currentPoint;
 

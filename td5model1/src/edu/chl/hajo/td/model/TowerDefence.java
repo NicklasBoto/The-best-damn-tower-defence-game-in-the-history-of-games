@@ -57,7 +57,7 @@ public class TowerDefence {
             wave.spawn(now);
         }
         for (AbstractTower t : towers){
-            t.update(waves);
+            t.update(waves, now);
         }
     }
 

@@ -1,12 +1,13 @@
 package edu.chl.hajo.td.model.creeps;
 import edu.chl.hajo.td.model.Path;
+import edu.chl.hajo.td.util.Point2D;
 import edu.chl.hajo.td.util.Vector2D;
 import javafx.scene.paint.Color;
 
 public class BasicCreep extends AbstractCreep {
     public BasicCreep(Path path) {
         this.path = path;
-        this.speed = 0.1;
+        this.speed = 0.5;
         this.width = 10;
         this.height = 10;
         this.color = Color.RED;
@@ -22,7 +23,8 @@ public class BasicCreep extends AbstractCreep {
     }
 
     @Override
-    public AbstractCreep copy() {
+    public AbstractCreep copy()
+    {
         return new BasicCreep(this.path);
     }
 }

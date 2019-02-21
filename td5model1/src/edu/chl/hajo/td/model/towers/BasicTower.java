@@ -20,11 +20,12 @@ public class BasicTower extends AbstractTower {
         this.color = BLUE;
 
         this.range = 100;
-        this.coolDown = TENTH_SEC;
+        this.coolDown = TENTH_SEC*4;
         this.firePower = 15;
         this.bulletPrototype = new BasicBullet(new Point2D(0,0), new Vector2D(0,0));
 
         this.INIT_DIR = new Vector2D(range/sqrt(2),range/sqrt(2), false);
+        this.dir = INIT_DIR;
         this.bullets = new ArrayList<AbstractBullet>();
     }
 }
