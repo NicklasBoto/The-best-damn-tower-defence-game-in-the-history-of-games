@@ -26,7 +26,7 @@ public class BasicTower extends AbstractTower {
 
         this.INIT_DIR = new Vector2D(range/sqrt(2),range/sqrt(2), false);
         this.dir = INIT_DIR;
-        this.bullets = new ArrayList<AbstractBullet>();
+        this.bullets = new ArrayList<>();
     }
 }
 

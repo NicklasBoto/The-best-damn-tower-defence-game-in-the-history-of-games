@@ -1,5 +1,6 @@
 package edu.chl.hajo.td.model.towers;
 
+import edu.chl.hajo.td.model.TowerDefence;
 import edu.chl.hajo.td.model.renderable.Renderable;
 import edu.chl.hajo.td.model.Wave;
 import edu.chl.hajo.td.model.creeps.AbstractCreep;
@@ -7,6 +8,8 @@ import edu.chl.hajo.td.model.towers.bullets.AbstractBullet;
 import edu.chl.hajo.td.util.Point2D;
 import edu.chl.hajo.td.util.Vector2D;
 import java.util.ArrayList;
+
+import edu.chl.hajo.td.view.TowerDefenceGUI;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +34,7 @@ public abstract class AbstractTower extends Renderable {
     protected AbstractBullet bulletPrototype;
 
     public void update(List<Wave> ws, long now){
-        updateBullets();
+        updateBullets(ws);
 
         if (resetTimer) {
             timer = now;
@@ -94,9 +97,30 @@ public abstract class AbstractTower extends Renderable {
         return closest;
     }
 
-    public void updateBullets() {
-        for (AbstractBullet b : bullets) {
+    public void updateBullets(List<Wave> ws) {
+        for (int i = bullets.size()-1; i >= 0; i --) {
+            AbstractBullet b = bullets.get(i);
+
+            //Move bullets
             b.move();
+
+            //Remove out of range bullets
+            Point2D bPos = b.getPos();
+            if (bPos.getX() > TowerDefence.GAME_WIDTH || bPos.getX() < 0 || bPos.getY() > TowerDefence.GAME_HEIGHT || bPos.getY() < 0) {
+                bullets.remove(i);
+            }
+
+            //Handle collision. AABB collison formula.
+            for (Wave w : ws) {
+                for (AbstractCreep c : w.getCreeps()) {
+                    if(bPos.getX() < c.getPos().getX() + c.getWidth() &&
+                            bPos.getX() + b.getWidth() > c.getPos().getX() &&
+                            bPos.getY() < c.getPos().getY() + c.getHeight() &&
+                            bPos.getY() + b.getWidth() > c.getPos().getY()) {
+                        c.setHp(c.getHp()-firePower);
+                    }
+                }
+            }
         }
     }
 
